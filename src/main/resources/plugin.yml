@@ -1,0 +1,4 @@
+name: BalancedDiet
+version: '${project.version}'
+main: me.vaan.balanceddiet.BalancedDiet
+api-version: '1.20'
