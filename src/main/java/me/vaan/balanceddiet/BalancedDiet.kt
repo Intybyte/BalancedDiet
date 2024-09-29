@@ -1,5 +1,6 @@
 package me.vaan.balanceddiet
 
+import me.vaan.balanceddiet.data.FoodEffects
 import me.vaan.balanceddiet.data.FoodMapper
 import me.vaan.balanceddiet.listeners.EatingListener
 import me.vaan.balanceddiet.listeners.HungerDecayListener
@@ -26,7 +27,8 @@ class BalancedDiet : JavaPlugin() {
         initFiles()
         initListeners()
 
-        FoodMapper.load(this)
+        FoodMapper.load( getConfiguration("foodTypes.yml") )
+        FoodEffects.load( getFile("foodEffects.yml") )
     }
 
     private fun initListeners() {
@@ -37,14 +39,19 @@ class BalancedDiet : JavaPlugin() {
     private fun initFiles() {
         saveDefaultConfig()
         getFile("foodTypes.yml")
+        getFile("foodEffects.yml")
 
         debug = config.getBoolean("debug")
     }
 
-    fun getFile(path: String) : FileConfiguration {
+    private fun getFile(path: String) : File {
         val configFile = File(dataFolder, path)
-
         if (!configFile.exists()) saveResource(path, false)
+        return configFile;
+    }
+
+    private fun getConfiguration(path: String) : FileConfiguration {
+        val configFile = getFile(path)
 
         val config: FileConfiguration = YamlConfiguration()
         try {

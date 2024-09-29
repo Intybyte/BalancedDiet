@@ -4,7 +4,7 @@ import me.vaan.balanceddiet.BalancedDiet
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.configuration.file.FileConfiguration
-import java.util.EnumSet
+import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
 object FoodMapper {
@@ -19,9 +19,7 @@ object FoodMapper {
         return null
     }
 
-    fun load(balancedDiet: BalancedDiet) {
-        file = balancedDiet.getFile("")
-
+    fun load(file: FileConfiguration) {
         for (foodType in file.getKeys(false)) {
             val list = file.getStringList(foodType).map { Material.valueOf(it) }
             val set = EnumSet.copyOf(list)
