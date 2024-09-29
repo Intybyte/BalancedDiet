@@ -37,7 +37,7 @@ class DietData {
 
     fun print(p: Audience) {
         _data.forEach { (t, u) ->
-            p.sendMessage(Component.text("$t \t\t ==> Consumed $u"))
+            p.sendMessage(Component.text("$t => Consumed $u"))
         }
     }
 }

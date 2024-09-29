@@ -1,6 +1,8 @@
 package me.vaan.balanceddiet.extension
 
 import me.vaan.balanceddiet.data.FoodEffects
+import net.kyori.adventure.audience.Audience
+import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import org.bukkit.inventory.meta.components.FoodComponent
 
@@ -19,4 +21,8 @@ fun Player.applyFoodEffect(value: Int, foodComponent: FoodComponent) {
     for (effect in foodEffect.potionEffect) {
         this.addPotionEffect(effect)
     }
+}
+
+fun Audience.printDivider() {
+    this.sendMessage(Component.text("=".repeat(34)))
 }
