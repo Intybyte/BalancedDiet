@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "2.1.0-Beta1"
     id("io.github.goooler.shadow") version "8.1.7"
+    id("io.papermc.paperweight.userdev") version "1.7.1"
 }
 
 group = "me.vaan"
@@ -18,7 +19,10 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.20")
     testImplementation("org.jetbrains.kotlin:kotlin-test:2.0.20")
     implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.21.1-R0.1-SNAPSHOT")
 }
+
+paperweight.reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION
 
 val targetJavaVersion = 21
 kotlin {
