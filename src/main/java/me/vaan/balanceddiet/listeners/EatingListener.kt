@@ -29,7 +29,7 @@ object EatingListener : Listener {
         record.addData(foodType, foodComponent.nutrition)
     }
 
-    fun applyEffect(value: Int, player: Player, foodComponent: FoodComponent) {
+    private fun applyEffect(value: Int, player: Player, foodComponent: FoodComponent) {
         val effect = FoodEffects[value] ?: return
         player.applyFoodEffect(foodComponent, effect)
     }
