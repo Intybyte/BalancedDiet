@@ -7,7 +7,17 @@ import java.io.File
 import java.util.concurrent.ConcurrentHashMap
 
 object FoodEffects {
-    private val mapper = ConcurrentHashMap<IntRange, Any>()
+    private val mapper = ConcurrentHashMap<IntRange, DietEffect>()
+
+    operator fun get(key: Int): DietEffect? {
+        for (entry in mapper) {
+            if (key in entry.key) {
+                return entry.value
+            }
+        }
+
+        return null
+    }
 
     fun load(yamlFile: File) {
         val yaml = Yaml()
@@ -15,7 +25,10 @@ object FoodEffects {
 
         for ((rangeKey, values) in data) {
             // Parse the range (e.g., "0-5" to IntRange)
-            val (start, end) = rangeKey.split("-").map { it.toInt() }
+            val (startString, endString) = rangeKey.split("-")
+            val start = startString.toInt()
+            val end = if(endString == "ANY") Int.MAX_VALUE else endString.toInt()
+
             val range = IntRange(start, end)
 
             // Extract potion effects

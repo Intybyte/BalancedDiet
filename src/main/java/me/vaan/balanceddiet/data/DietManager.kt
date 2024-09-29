@@ -11,8 +11,8 @@ object DietManager {
         }
     }
 
-    fun getRecord(name: String): DietData? {
+    operator fun get(name: String): DietData {
         initRecord(name)
-        return database[name]
+        return database[name]!!
     }
 }

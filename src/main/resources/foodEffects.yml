@@ -5,7 +5,7 @@
   food-multiplier: 1.2
   saturation-multiplier: 1.2
 6-10: []
-11-15:
+11-ANY:
   effects:
     - [ "NAUSEA", "1", "60" ]
     - [ "SLOWNESS", "2", "60" ]

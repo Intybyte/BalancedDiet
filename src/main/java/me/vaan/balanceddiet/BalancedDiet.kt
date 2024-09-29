@@ -1,5 +1,6 @@
 package me.vaan.balanceddiet
 
+import co.aikar.commands.PaperCommandManager
 import me.vaan.balanceddiet.data.FoodEffects
 import me.vaan.balanceddiet.data.FoodMapper
 import me.vaan.balanceddiet.listeners.EatingListener
@@ -25,10 +26,16 @@ class BalancedDiet : JavaPlugin() {
 
     override fun onEnable() {
         initFiles()
+        initCommands()
         initListeners()
 
         FoodMapper.load( getConfiguration("foodTypes.yml") )
         FoodEffects.load( getFile("foodEffects.yml") )
+    }
+
+    private fun initCommands() {
+        val pcm = PaperCommandManager(this)
+        pcm.registerCommand(BDCommands)
     }
 
     private fun initListeners() {

@@ -1,14 +1,12 @@
 package me.vaan.balanceddiet.data
 
+import net.kyori.adventure.audience.Audience
+import net.kyori.adventure.text.Component
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.max
 
 class DietData {
     private val _data = ConcurrentHashMap<FoodTypes, Int>()
-    /*val data: ConcurrentHashMap<FoodTypes, Int>
-        get() {
-            return _data
-        }*/
 
     constructor(values: IntArray) {
         val foodTypes = FoodTypes.entries.toTypedArray()
@@ -31,5 +29,15 @@ class DietData {
 
     fun addData(type: FoodTypes, offset: Int) {
         _data[type] = (_data[type] ?: 0) + offset
+    }
+
+    operator fun get(type: FoodTypes) : Int {
+        return _data[type]!!
+    }
+
+    fun print(p: Audience) {
+        _data.forEach { (t, u) ->
+            p.sendMessage(Component.text("$t ==> Consumed $u"))
+        }
     }
 }
