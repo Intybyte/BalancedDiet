@@ -50,7 +50,7 @@ object FoodMapper {
     private fun checkInedible() {
         for (entry in mapper) {
             for (food in entry.value) {
-                if (!food.isEdible) {
+                if (!food.isEdible && food != Material.CAKE) {
                     Bukkit.getLogger().warning("Entry $food is not edible in entry ${entry.key}")
                 }
             }

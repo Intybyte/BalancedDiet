@@ -1,10 +1,12 @@
 package me.vaan.balanceddiet.extension
 
-import me.vaan.balanceddiet.data.DietEffect
+import me.vaan.balanceddiet.data.FoodEffects
 import org.bukkit.entity.Player
 import org.bukkit.inventory.meta.components.FoodComponent
 
-fun Player.applyFoodEffect(foodComponent: FoodComponent, effect: DietEffect) {
+fun Player.applyFoodEffect(value: Int, foodComponent: FoodComponent) {
+    val effect = FoodEffects[value] ?: return
+
     if (effect.damage > 0.1)
         this.damage(effect.damage / 2.0 )
 

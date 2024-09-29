@@ -4,7 +4,7 @@
     - [ "RESISTANCE", "1", "40" ]
   food-multiplier: 1.2
   saturation-multiplier: 1.2
-6-10: []
+# do nothing between 6-10
 11-ANY:
   effects:
     - [ "NAUSEA", "1", "60" ]
