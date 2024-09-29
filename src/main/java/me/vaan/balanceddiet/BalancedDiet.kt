@@ -3,6 +3,7 @@ package me.vaan.balanceddiet
 import co.aikar.commands.PaperCommandManager
 import me.vaan.balanceddiet.data.FoodEffects
 import me.vaan.balanceddiet.data.FoodMapper
+import me.vaan.balanceddiet.listeners.CakeEatingListener
 import me.vaan.balanceddiet.listeners.EatingListener
 import me.vaan.balanceddiet.listeners.HungerDecayListener
 import org.bukkit.Bukkit
@@ -45,6 +46,7 @@ class BalancedDiet : JavaPlugin() {
     private fun initListeners() {
         server.pluginManager.registerEvents(EatingListener, this)
         server.pluginManager.registerEvents(HungerDecayListener, this)
+        server.pluginManager.registerEvents(CakeEatingListener, this)
     }
 
     private fun initFiles() {
