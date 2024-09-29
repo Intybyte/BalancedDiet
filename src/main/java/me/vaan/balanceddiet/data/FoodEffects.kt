@@ -1,5 +1,6 @@
 package me.vaan.balanceddiet.data
 
+import me.vaan.balanceddiet.BalancedDiet
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import org.yaml.snakeyaml.Yaml
@@ -58,6 +59,16 @@ object FoodEffects {
             )
 
             mapper[range] = dietEffect
+        }
+
+        debugAllEntries()
+    }
+
+    private fun debugAllEntries() {
+        if (!BalancedDiet.debug) return
+
+        for (entry in mapper) {
+            BalancedDiet.debug("Key: ${entry.key} | Value: ${entry.value}")
         }
     }
 }

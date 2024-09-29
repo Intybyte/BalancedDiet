@@ -15,10 +15,14 @@ import java.io.IOException
 
 class BalancedDiet : JavaPlugin() {
     companion object {
-        private var debug: Boolean = false
+        private var _debug: Boolean = false
+        val debug: Boolean
+            get() {
+                return _debug
+            }
 
         fun debug(s: String) {
-            if (debug) {
+            if (_debug) {
                 Bukkit.getLogger().info(s)
             }
         }
@@ -48,7 +52,7 @@ class BalancedDiet : JavaPlugin() {
         getFile("foodTypes.yml")
         getFile("foodEffects.yml")
 
-        debug = config.getBoolean("debug")
+        _debug = config.getBoolean("debug")
     }
 
     private fun getFile(path: String) : File {

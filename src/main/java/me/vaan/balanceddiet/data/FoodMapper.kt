@@ -23,7 +23,7 @@ object FoodMapper {
         for (foodType in file.getKeys(false)) {
             val list = file.getStringList(foodType).map { Material.valueOf(it) }
             val set = EnumSet.copyOf(list)
-            mapper[FoodTypes.valueOf(foodType)] = set
+            mapper[FoodTypes.valueOf(foodType.uppercase())] = set
         }
 
         debugAllEntries()
@@ -32,6 +32,8 @@ object FoodMapper {
     }
 
     private fun debugAllEntries() {
+        if (!BalancedDiet.debug) return
+
         for (entry in mapper) {
             BalancedDiet.debug("Food mapper init key: ${entry.key}")
 
