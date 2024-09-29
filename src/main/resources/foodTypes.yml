@@ -28,6 +28,7 @@ vegetables:
   - BEETROOT_SOUP
   - DRIED_KELP
   - POISONOUS_POTATO
+  - GOLDEN_CARROT
 
 sweets:
   - COOKIE
@@ -40,6 +41,7 @@ sweets:
 fruit:
   - APPLE
   - GOLDEN_APPLE
+  - ENCHANTED_GOLDEN_APPLE
   - MELON_SLICE
   - GLOW_BERRIES
 
