@@ -22,4 +22,9 @@ object BDCommands : BaseCommand() {
         player.sendMessage("   $outputFood")
         player.printDivider()
     }
+
+    @Subcommand("save")
+    fun save() {
+        DietManager.save()
+    }
 }

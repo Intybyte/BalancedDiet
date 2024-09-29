@@ -8,7 +8,6 @@ import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
 object FoodMapper {
-    private lateinit var file: FileConfiguration
     private val mapper = ConcurrentHashMap<FoodTypes, EnumSet<Material>>()
 
     fun map(food: Material) : FoodTypes? {

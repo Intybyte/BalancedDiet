@@ -1,6 +1,7 @@
 package me.vaan.balanceddiet
 
 import co.aikar.commands.PaperCommandManager
+import me.vaan.balanceddiet.data.DietManager
 import me.vaan.balanceddiet.data.FoodEffects
 import me.vaan.balanceddiet.data.FoodMapper
 import me.vaan.balanceddiet.listeners.CakeEatingListener
@@ -36,6 +37,13 @@ class BalancedDiet : JavaPlugin() {
 
         FoodMapper.load( getConfiguration("foodTypes.yml") )
         FoodEffects.load( getFile("foodEffects.yml") )
+        DietManager.init(this)
+        DietManager.load()
+    }
+
+    override fun onDisable() {
+        DietManager.save()
+        DietManager.close()
     }
 
     private fun initCommands() {
@@ -57,13 +65,13 @@ class BalancedDiet : JavaPlugin() {
         _debug = config.getBoolean("debug")
     }
 
-    private fun getFile(path: String) : File {
+    fun getFile(path: String) : File {
         val configFile = File(dataFolder, path)
         if (!configFile.exists()) saveResource(path, false)
-        return configFile;
+        return configFile
     }
 
-    private fun getConfiguration(path: String) : FileConfiguration {
+    fun getConfiguration(path: String) : FileConfiguration {
         val configFile = getFile(path)
 
         val config: FileConfiguration = YamlConfiguration()

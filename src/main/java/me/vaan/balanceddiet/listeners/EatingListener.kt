@@ -1,5 +1,6 @@
 package me.vaan.balanceddiet.listeners
 
+import me.vaan.balanceddiet.BalancedDiet
 import me.vaan.balanceddiet.data.DietManager
 import me.vaan.balanceddiet.data.FoodMapper
 import me.vaan.balanceddiet.extension.applyFoodEffect
@@ -13,13 +14,16 @@ object EatingListener : Listener {
     fun onPlayerEat(event: PlayerItemConsumeEvent) {
         val player = event.player
         if (player.gameMode == GameMode.CREATIVE) return
+        BalancedDiet.debug("PlayerEat: Passed Creative check")
 
         val item = event.item
         val food = item.type
         if (!food.isEdible) return
+        BalancedDiet.debug("PlayerEat: Passed Edible check")
 
         val foodType = FoodMapper.map(food)
         foodType ?: return
+        BalancedDiet.debug("PlayerEat: Foodtype found check")
 
         val record = DietManager[player.name]
 

@@ -36,7 +36,6 @@ sweets:
   - HONEY_BOTTLE
   - SWEET_BERRIES
   - PUMPKIN_PIE
-  - CHORUS_FRUIT
 
 fruit:
   - APPLE
@@ -44,6 +43,7 @@ fruit:
   - ENCHANTED_GOLDEN_APPLE
   - MELON_SLICE
   - GLOW_BERRIES
+  - CHORUS_FRUIT
 
 processed:
   - BREAD

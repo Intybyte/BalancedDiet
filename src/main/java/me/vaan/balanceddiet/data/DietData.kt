@@ -18,6 +18,10 @@ class DietData {
 
     constructor() : this( IntArray(FoodTypes.entries.size) { 0 } )
 
+    fun toIntArray() : IntArray {
+        return _data.values.toIntArray()
+    }
+
     fun decreaseAll(amount: Int) {
         val foodTypes = FoodTypes.entries.toTypedArray()
 
