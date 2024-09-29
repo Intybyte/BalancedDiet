@@ -3,13 +3,13 @@ package me.vaan.balanceddiet.extension
 import me.vaan.balanceddiet.data.FoodEffects
 import net.kyori.adventure.audience.Audience
 import net.kyori.adventure.text.Component
-import org.bukkit.Material
+import net.minecraft.core.component.DataComponents
+import net.minecraft.world.food.FoodProperties
+import org.bukkit.craftbukkit.inventory.CraftItemStack
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import org.bukkit.inventory.meta.components.FoodComponent
-import java.lang.reflect.Method
 
-fun Player.applyFoodEffect(value: Int, foodComponent: FoodComponent) {
+fun Player.applyFoodEffect(value: Int, foodComponent: FoodProperties) {
     val foodEffect = FoodEffects[value] ?: return
 
     if (foodEffect.damage > 0.1)
@@ -26,24 +26,10 @@ fun Player.applyFoodEffect(value: Int, foodComponent: FoodComponent) {
     }
 }
 
-fun ItemStack.getFood() : Int {
-    return try {
-        val foodClass = Class.forName("net.minecraft.world.item.ItemFood")
-        val itemType = Class.forName("net.minecraft.world.item.Item")
-        val itemField = itemType.getDeclaredField("foodProperties")
-        itemField.isAccessible = true // Make the field accessible
-
-        // Get the food properties
-        val foodProperties = itemField.get(this)
-        val getHungerMethod: Method = foodClass.getDeclaredMethod("getNutrition") // Method to get hunger restoration
-        getHungerMethod.isAccessible = true // Make the method accessible
-
-        // Call the method and return the hunger restoration value
-        getHungerMethod.invoke(foodProperties) as Int
-    } catch (e: Exception) {
-        e.printStackTrace() // Handle any exceptions
-        0 // Return 0 if something goes wrong
-    }
+fun ItemStack.getFoodComponent() : FoodProperties? {
+    val nmsCopy = CraftItemStack.asNMSCopy(this)
+    val foodComponent = nmsCopy.components[DataComponents.FOOD]
+    return foodComponent
 }
 
 fun Audience.printDivider() {
