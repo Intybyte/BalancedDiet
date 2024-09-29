@@ -1,10 +1,14 @@
 package me.vaan.balanceddiet.listeners
 
 import me.vaan.balanceddiet.data.DietManager
+import me.vaan.balanceddiet.data.FoodEffects
 import me.vaan.balanceddiet.data.FoodMapper
+import me.vaan.balanceddiet.extension.applyFoodEffect
+import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerItemConsumeEvent
+import org.bukkit.inventory.meta.components.FoodComponent
 
 object EatingListener : Listener {
     @EventHandler
@@ -20,9 +24,13 @@ object EatingListener : Listener {
 
         val foodComponent = item.itemMeta.food
         val value = record[foodType]
-
-
+        applyEffect(value, event.player, foodComponent)
 
         record.addData(foodType, foodComponent.nutrition)
+    }
+
+    fun applyEffect(value: Int, player: Player, foodComponent: FoodComponent) {
+        val effect = FoodEffects[value] ?: return
+        player.applyFoodEffect(foodComponent, effect)
     }
 }
