@@ -30,7 +30,7 @@ object EatingListener : Listener {
         player.applyFoodEffect(value, foodComponent)
 
         BalancedDiet.debug("FoodValue: $value     Adding: ${foodComponent.nutrition}")
-        record.addData(foodType, foodComponent.nutrition)
+        record.addData(foodType, foodComponent.nutrition * 4)
         BalancedDiet.debug("New Value: " + record[foodType])
     }
 }
