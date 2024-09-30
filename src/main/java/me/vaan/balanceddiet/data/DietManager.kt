@@ -27,7 +27,7 @@ object DietManager {
 
         for (entry in database) {
             val statement = connection
-                .prepareStatement("INSERT INTO diet (player, dietArray) VALUES (?, ?)")
+                .prepareStatement("REPLACE INTO diet (player, dietArray) VALUES (?, ?)")
             statement.setString(1, entry.key)
 
             val intArray = entry.value.toIntArray()
