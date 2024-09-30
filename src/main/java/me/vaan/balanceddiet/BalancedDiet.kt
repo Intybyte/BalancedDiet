@@ -17,11 +17,14 @@ import java.io.IOException
 
 class BalancedDiet : JavaPlugin() {
     companion object {
+        private lateinit var _instance: BalancedDiet
         private var _debug: Boolean = false
+
+        val instance: BalancedDiet
+            get() = _instance
+
         val debug: Boolean
-            get() {
-                return _debug
-            }
+            get() = _debug
 
         fun debug(s: String) {
             if (_debug) {
@@ -31,6 +34,7 @@ class BalancedDiet : JavaPlugin() {
     }
 
     override fun onEnable() {
+        _instance = this
         initFiles()
         initCommands()
         initListeners()
@@ -42,7 +46,7 @@ class BalancedDiet : JavaPlugin() {
     }
 
     override fun onDisable() {
-        DietManager.save()
+        DietManager.save(false)
         DietManager.close()
     }
 

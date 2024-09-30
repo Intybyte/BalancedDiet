@@ -1,6 +1,7 @@
 package me.vaan.balanceddiet.data
 
 import me.vaan.balanceddiet.BalancedDiet
+import org.bukkit.Bukkit
 import java.io.File
 import java.sql.Connection
 import java.sql.DriverManager
@@ -23,18 +24,25 @@ object DietManager {
         return database[name]!!
     }
 
-    fun save() {
+    fun save(async: Boolean) {
+        val runnable =  {
+            for (entry in database) {
+                val statement = connection
+                    .prepareStatement("REPLACE INTO diet (player, dietArray) VALUES (?, ?)")
+                statement.setString(1, entry.key)
 
-        for (entry in database) {
-            val statement = connection
-                .prepareStatement("REPLACE INTO diet (player, dietArray) VALUES (?, ?)")
-            statement.setString(1, entry.key)
+                val intArray = entry.value.toIntArray()
+                val stringArray = intArray.joinToString(",")
 
-            val intArray = entry.value.toIntArray()
-            val stringArray = intArray.joinToString(",")
+                statement.setString(2, stringArray)
+                statement.execute()
+            }
+        }
 
-            statement.setString(2, stringArray)
-            statement.execute()
+        if (async) {
+            Bukkit.getScheduler().runTaskAsynchronously(BalancedDiet.instance, runnable)
+        } else {
+            runnable.invoke()
         }
     }
 

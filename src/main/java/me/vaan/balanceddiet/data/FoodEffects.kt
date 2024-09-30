@@ -1,6 +1,8 @@
 package me.vaan.balanceddiet.data
 
 import me.vaan.balanceddiet.BalancedDiet
+import net.kyori.adventure.audience.Audience
+import net.kyori.adventure.text.Component
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import org.yaml.snakeyaml.Yaml
@@ -69,6 +71,13 @@ object FoodEffects {
 
         for (entry in mapper) {
             BalancedDiet.debug("Key: ${entry.key} | Value: ${entry.value}")
+        }
+    }
+
+    fun print(audience: Audience) {
+        for (entry in mapper) {
+            val message = Component.text("Key: ${entry.key} | Value: ${entry.value}")
+            audience.sendMessage(message)
         }
     }
 }
