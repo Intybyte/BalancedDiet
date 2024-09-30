@@ -4,13 +4,13 @@ import me.vaan.balanceddiet.data.FoodEffects
 import net.kyori.adventure.audience.Audience
 import net.kyori.adventure.text.Component
 import net.minecraft.core.component.DataComponents
+import net.minecraft.world.food.FoodProperties
 import org.bukkit.craftbukkit.inventory.CraftItemStack
 import org.bukkit.craftbukkit.inventory.components.CraftFoodComponent
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import org.bukkit.inventory.meta.components.FoodComponent
 
-fun Player.applyFoodEffect(value: Int, foodComponent: FoodComponent) {
+fun Player.applyFoodEffect(value: Int, foodComponent: FoodProperties) {
     val foodEffect = FoodEffects[value] ?: return
 
     if (foodEffect.damage > 0.1)
@@ -27,11 +27,11 @@ fun Player.applyFoodEffect(value: Int, foodComponent: FoodComponent) {
     }
 }
 
-fun ItemStack.getFoodComponent() : FoodComponent? {
+fun ItemStack.getFoodComponent() : FoodProperties? {
     val nmsCopy = CraftItemStack.asNMSCopy(this)
     val foodProperties = nmsCopy.components[DataComponents.FOOD]
-    val foodComponent = CraftFoodComponent(foodProperties)
-    return foodComponent
+    CraftFoodComponent(foodProperties)
+    return foodProperties
 }
 
 fun Audience.printDivider() {
