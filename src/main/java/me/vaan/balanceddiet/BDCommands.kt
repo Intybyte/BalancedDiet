@@ -1,8 +1,7 @@
 package me.vaan.balanceddiet
 
 import co.aikar.commands.BaseCommand
-import co.aikar.commands.annotation.CommandAlias
-import co.aikar.commands.annotation.Subcommand
+import co.aikar.commands.annotation.*
 import me.vaan.balanceddiet.data.DietManager
 import me.vaan.balanceddiet.data.FoodEffects
 import me.vaan.balanceddiet.extension.printDivider
@@ -12,6 +11,7 @@ import org.bukkit.entity.Player
 @CommandAlias("diet")
 object BDCommands : BaseCommand() {
 
+    @CommandPermission("balanceddiet.command.profile")
     @Subcommand("profile")
     fun profile(player: Player) {
         player.printDivider()
@@ -26,6 +26,7 @@ object BDCommands : BaseCommand() {
         player.printDivider()
     }
 
+    @CommandPermission("balanceddiet.command.effects")
     @Subcommand("effects")
     fun effects(sender: CommandSender) {
         sender.printDivider()
@@ -35,6 +36,7 @@ object BDCommands : BaseCommand() {
         sender.printDivider()
     }
 
+    @CommandPermission("balanceddiet.command.save")
     @Subcommand("save")
     fun save() {
         DietManager.save(true)
