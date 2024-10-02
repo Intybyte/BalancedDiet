@@ -1,7 +1,7 @@
 package me.vaan.balanceddiet.listeners
 
-import me.vaan.balanceddiet.data.DietManager
-import me.vaan.balanceddiet.data.FoodMapper
+import me.vaan.balanceddiet.singletons.DietManager
+import me.vaan.balanceddiet.singletons.FoodMapper
 import org.bukkit.Material
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener

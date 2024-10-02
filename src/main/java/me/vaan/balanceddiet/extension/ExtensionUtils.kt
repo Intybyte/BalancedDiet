@@ -1,12 +1,11 @@
 package me.vaan.balanceddiet.extension
 
-import me.vaan.balanceddiet.data.FoodEffects
+import me.vaan.balanceddiet.singletons.FoodEffects
 import net.kyori.adventure.audience.Audience
 import net.kyori.adventure.text.Component
 import net.minecraft.core.component.DataComponents
 import net.minecraft.world.food.FoodProperties
 import org.bukkit.craftbukkit.inventory.CraftItemStack
-import org.bukkit.craftbukkit.inventory.components.CraftFoodComponent
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
@@ -29,9 +28,7 @@ fun Player.applyFoodEffect(value: Int, foodComponent: FoodProperties) {
 
 fun ItemStack.getFoodComponent() : FoodProperties? {
     val nmsCopy = CraftItemStack.asNMSCopy(this)
-    val foodProperties = nmsCopy.components[DataComponents.FOOD]
-    CraftFoodComponent(foodProperties)
-    return foodProperties
+    return nmsCopy.components[DataComponents.FOOD]
 }
 
 fun Audience.printDivider() {

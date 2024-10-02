@@ -1,6 +1,6 @@
 package me.vaan.balanceddiet.listeners
 
-import me.vaan.balanceddiet.data.DietManager
+import me.vaan.balanceddiet.singletons.DietManager
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener

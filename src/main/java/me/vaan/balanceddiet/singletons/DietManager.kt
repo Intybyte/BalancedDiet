@@ -1,6 +1,7 @@
-package me.vaan.balanceddiet.data
+package me.vaan.balanceddiet.singletons
 
 import me.vaan.balanceddiet.BalancedDiet
+import me.vaan.balanceddiet.data.DietData
 import org.bukkit.Bukkit
 import java.io.File
 import java.sql.Connection

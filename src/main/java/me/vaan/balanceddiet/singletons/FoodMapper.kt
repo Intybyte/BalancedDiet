@@ -1,6 +1,7 @@
-package me.vaan.balanceddiet.data
+package me.vaan.balanceddiet.singletons
 
 import me.vaan.balanceddiet.BalancedDiet
+import me.vaan.balanceddiet.data.FoodTypes
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.configuration.file.FileConfiguration
@@ -59,7 +60,7 @@ object FoodMapper {
     private fun checkForgottenEdibles() {
         val foods = Material.entries.filter { it.isEdible }
         for (food in foods) {
-            val type = this.map(food)
+            val type = map(food)
             type ?: BalancedDiet.debug("The food $food isn't mapped to anything, you might want to change that")
         }
     }

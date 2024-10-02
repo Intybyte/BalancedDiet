@@ -2,8 +2,8 @@ package me.vaan.balanceddiet
 
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.*
-import me.vaan.balanceddiet.data.DietManager
-import me.vaan.balanceddiet.data.FoodEffects
+import me.vaan.balanceddiet.singletons.DietManager
+import me.vaan.balanceddiet.singletons.FoodEffects
 import me.vaan.balanceddiet.extension.printDivider
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player

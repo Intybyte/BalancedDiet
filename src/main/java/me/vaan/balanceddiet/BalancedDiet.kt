@@ -1,9 +1,9 @@
 package me.vaan.balanceddiet
 
 import co.aikar.commands.PaperCommandManager
-import me.vaan.balanceddiet.data.DietManager
-import me.vaan.balanceddiet.data.FoodEffects
-import me.vaan.balanceddiet.data.FoodMapper
+import me.vaan.balanceddiet.singletons.DietManager
+import me.vaan.balanceddiet.singletons.FoodEffects
+import me.vaan.balanceddiet.singletons.FoodMapper
 import me.vaan.balanceddiet.listeners.CakeEatingListener
 import me.vaan.balanceddiet.listeners.EatingListener
 import me.vaan.balanceddiet.listeners.HungerDecayListener
