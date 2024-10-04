@@ -16,3 +16,7 @@ permissions:
   balanceddiet.command.save:
     description: Saves to the database async
     default: op
+
+  balanceddiet.command.profile.other:
+    description: Gives info about another player diet
+    default: op

@@ -5,13 +5,16 @@ import co.aikar.commands.annotation.*
 import me.vaan.balanceddiet.singletons.DietManager
 import me.vaan.balanceddiet.singletons.FoodEffects
 import me.vaan.balanceddiet.extension.printDivider
+import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 @CommandAlias("diet")
+@Description("Base command of BalancedDiet plugin")
 object BDCommands : BaseCommand() {
 
     @CommandPermission("balanceddiet.command.profile")
+    @Description("Gives info about the player diet")
     @Subcommand("profile")
     fun profile(player: Player) {
         player.printDivider()
@@ -26,7 +29,36 @@ object BDCommands : BaseCommand() {
         player.printDivider()
     }
 
+    @CommandPermission("balanceddiet.command.profile.other")
+    @Description("Gives info about another player diet")
+    @Subcommand("profile")
+    fun otherProfile(commandSender: CommandSender, playerName: String) {
+        val player = Bukkit.getOfflinePlayer(playerName)
+
+        if (!player.hasPlayedBefore()) {
+            commandSender.sendMessage("Player not found!")
+            return
+        }
+
+        commandSender.printDivider()
+        commandSender.sendMessage("              DIET STATS              ")
+        commandSender.printDivider()
+
+        val record = DietManager[playerName]
+        record.print(commandSender)
+        commandSender.printDivider()
+
+        // print food and saturation if player is online too
+        val onlinePlayer = player.player
+        if (onlinePlayer != null) {
+            val outputFood = "Food: " + onlinePlayer.foodLevel + "     Saturation: "  + onlinePlayer.saturation.toInt()
+            commandSender.sendMessage("   $outputFood")
+            commandSender.printDivider()
+        }
+    }
+
     @CommandPermission("balanceddiet.command.effects")
+    @Description("Gives info about the positive/negative effects of follow a good/bad diet")
     @Subcommand("effects")
     fun effects(sender: CommandSender) {
         sender.printDivider()
@@ -37,6 +69,7 @@ object BDCommands : BaseCommand() {
     }
 
     @CommandPermission("balanceddiet.command.save")
+    @Description("Saves to the database async")
     @Subcommand("save")
     fun save() {
         DietManager.save(true)
