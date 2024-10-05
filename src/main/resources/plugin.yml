@@ -20,3 +20,7 @@ permissions:
   balanceddiet.command.profile.other:
     description: Gives info about another player diet
     default: op
+
+  balanceddiet.command.clear:
+    description: Clears your or another player diet
+    default: op

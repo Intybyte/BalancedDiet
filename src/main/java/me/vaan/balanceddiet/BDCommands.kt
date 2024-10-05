@@ -2,6 +2,7 @@ package me.vaan.balanceddiet
 
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.*
+import me.vaan.balanceddiet.data.DietData
 import me.vaan.balanceddiet.singletons.DietManager
 import me.vaan.balanceddiet.singletons.FoodEffects
 import me.vaan.balanceddiet.extension.printDivider
@@ -71,7 +72,30 @@ object BDCommands : BaseCommand() {
     @CommandPermission("balanceddiet.command.save")
     @Description("Saves to the database async")
     @Subcommand("save")
-    fun save() {
+    fun save(sender: CommandSender) {
         DietManager.save(true)
     }
+
+    @CommandPermission("balanceddiet.command.clear")
+    @Description("Clears your player diet")
+    @Subcommand("clear")
+    fun clear(player: Player) {
+        DietManager[player.name] = DietData()
+        player.sendMessage("Success!")
+    }
+
+    @CommandPermission("balanceddiet.command.clear")
+    @Description("Clears another player diet")
+    @Subcommand("clear")
+    fun clearOther(commandSender: CommandSender, playerName: String) {
+        val player = Bukkit.getOfflinePlayer(playerName)
+        if (!player.hasPlayedBefore()) {
+            commandSender.sendMessage("Player not found!")
+            return
+        }
+
+        DietManager[playerName] = DietData()
+        commandSender.sendMessage("Success!")
+    }
+
 }

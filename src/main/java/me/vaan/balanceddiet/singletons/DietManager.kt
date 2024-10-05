@@ -25,6 +25,10 @@ object DietManager {
         return database[name]!!
     }
 
+    operator fun set(name: String, data: DietData) {
+        database[name] = data
+    }
+
     fun save(async: Boolean) {
         val runnable =  {
             for (entry in database) {
