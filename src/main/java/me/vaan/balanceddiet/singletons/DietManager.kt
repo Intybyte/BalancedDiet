@@ -2,6 +2,7 @@ package me.vaan.balanceddiet.singletons
 
 import me.vaan.balanceddiet.BalancedDiet
 import me.vaan.balanceddiet.data.DietData
+import me.vaan.balanceddiet.data.FoodTypes
 import org.bukkit.Bukkit
 import java.io.File
 import java.sql.Connection
@@ -57,9 +58,7 @@ object DietManager {
 
         connection = DriverManager.getConnection("jdbc:sqlite:${dbFile.path}")
         connection.createStatement().execute(
-            "CREATE TABLE IF NOT EXISTS diet (" +
-                    "player TEXT PRIMARY KEY, " +
-                    "dietArray TEXT)"
+            "CREATE TABLE IF NOT EXISTS diet (player TEXT PRIMARY KEY)"
         )
     }
 
@@ -67,9 +66,18 @@ object DietManager {
         val resultSet: ResultSet = connection.createStatement().executeQuery("SELECT * FROM diet")
         while (resultSet.next()) {
             val player = resultSet.getString("player")
-            val stringArray = resultSet.getString("dietArray")
-            val dietArray = stringArray.split(",").map { it.toInt() }.toIntArray()
-            database[player] = DietData(dietArray)
+            val tempData = DietData()
+            for (entry in FoodTypes.getRegistry()) {
+                try {
+                    val foodEntryValue = resultSet.getInt(entry)
+                    tempData[entry] = foodEntryValue
+                } catch (e: Exception) {
+                    BalancedDiet.logger.warning("Error loading database: $entry not found")
+                    tempData[entry] = 0
+                }
+            }
+
+            database[player] = tempData
         }
     }
 
@@ -80,5 +88,9 @@ object DietManager {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    fun createMissingColumns() {
+
     }
 }

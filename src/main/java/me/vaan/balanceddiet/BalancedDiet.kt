@@ -14,11 +14,16 @@ import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 import java.io.IOException
+import java.util.logging.Logger
 
 class BalancedDiet : JavaPlugin() {
     companion object {
         private lateinit var _instance: BalancedDiet
         private var _debug: Boolean = false
+        private lateinit var _logger: Logger
+
+        val logger: Logger
+            get() = _logger
 
         val instance: BalancedDiet
             get() = _instance
@@ -35,6 +40,7 @@ class BalancedDiet : JavaPlugin() {
 
     override fun onEnable() {
         _instance = this
+        _logger = this.logger
         initFiles()
         initCommands()
         initListeners()

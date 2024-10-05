@@ -1,10 +1,13 @@
 package me.vaan.balanceddiet.data
 
-enum class FoodTypes {
-    MEAT,
-    FISH,
-    VEGETABLES,
-    SWEETS,
-    FRUIT,
-    PROCESSED
+object FoodTypes {
+    private val registry: MutableList<String> = ArrayList()
+
+    fun add(entry: String) {
+        registry.add(entry)
+    }
+
+    fun getRegistry(): MutableList<String> {
+        return registry
+    }
 }

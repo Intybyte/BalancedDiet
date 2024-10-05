@@ -29,7 +29,7 @@ object EatingListener : Listener {
         val value = record[foodType]
         player.applyFoodEffect(value, foodComponent)
 
-        val changedValue = foodComponent.nutrition * 4
+        val changedValue = ((foodComponent.nutrition + foodComponent.saturation) * 2).toInt()
         BalancedDiet.debug("FoodValue: $value | Adding: $changedValue")
         record.addData(foodType, changedValue)
         BalancedDiet.debug("New Value: " + record[foodType])

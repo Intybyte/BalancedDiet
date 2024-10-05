@@ -21,6 +21,6 @@ object CakeEatingListener : Listener {
 
         //only add data, so it won't be used to spam effects
         val record = DietManager[player.name]
-        record.addData(foodType, 1)
+        record.addData(foodType, 1 * 4)
     }
 }

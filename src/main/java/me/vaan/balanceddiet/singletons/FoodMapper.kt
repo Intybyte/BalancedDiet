@@ -9,9 +9,9 @@ import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
 object FoodMapper {
-    private val mapper = ConcurrentHashMap<FoodTypes, EnumSet<Material>>()
+    private val mapper = ConcurrentHashMap<String, EnumSet<Material>>()
 
-    fun map(food: Material) : FoodTypes? {
+    fun map(food: Material) : String? {
         for (entry in mapper) {
             if (entry.value.contains(food)) return entry.key
         }
@@ -21,9 +21,13 @@ object FoodMapper {
 
     fun load(file: FileConfiguration) {
         for (foodType in file.getKeys(false)) {
+            if (foodType == "player") {
+                BalancedDiet.logger.severe("You can't have a food type called 'player' as it is reserved internally. Skipping config line.")
+                continue
+            }
             val list = file.getStringList(foodType).map { Material.valueOf(it) }
             val set = EnumSet.copyOf(list)
-            mapper[FoodTypes.valueOf(foodType.uppercase())] = set
+            mapper[foodType.uppercase()] = set
         }
 
         debugAllEntries()
