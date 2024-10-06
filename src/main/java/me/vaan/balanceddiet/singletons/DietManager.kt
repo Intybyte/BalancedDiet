@@ -8,6 +8,7 @@ import java.io.File
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.ResultSet
+import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
 object DietManager {
@@ -32,15 +33,22 @@ object DietManager {
 
     fun save(async: Boolean) {
         val runnable =  {
+            val registry = FoodTypes.getRegistry()
+            val fieldsToChange = registry.joinToString(",")
+            val placeholders = "?,".repeat(registry.size + 1).dropLast(1)
+
             for (entry in database) {
+                val player = entry.key
+                val foodData = entry.value
+
                 val statement = connection
-                    .prepareStatement("REPLACE INTO diet (player, dietArray) VALUES (?, ?)")
-                statement.setString(1, entry.key)
+                    .prepareStatement("REPLACE INTO diet (player, $fieldsToChange) VALUES ($placeholders)")
+                statement.setString(1, player)
 
-                val intArray = entry.value.toIntArray()
-                val stringArray = intArray.joinToString(",")
+                for (i in registry.indices) {
+                    statement.setInt(i + 2, foodData[registry[i]])
+                }
 
-                statement.setString(2, stringArray)
                 statement.execute()
             }
         }
@@ -60,6 +68,15 @@ object DietManager {
         connection.createStatement().execute(
             "CREATE TABLE IF NOT EXISTS diet (player TEXT PRIMARY KEY)"
         )
+
+        val columnsList = getColumns("diet")
+        for (entry in FoodTypes.getRegistry()) {
+            if (entry !in columnsList) {
+                val statement = connection.createStatement()
+                val alterTableQuery = "ALTER TABLE diet ADD COLUMN $entry INTEGER"
+                statement.executeUpdate(alterTableQuery)
+            }
+        }
     }
 
     fun load() {
@@ -90,7 +107,26 @@ object DietManager {
         }
     }
 
-    fun createMissingColumns() {
+    private fun getColumns(tableName: String): MutableList<String> {
+        return getColumns(tableName) { _ -> true }
+    }
 
+    private fun getColumns(tableName: String, filter: (ResultSet) -> Boolean) : MutableList<String> {
+        val result = LinkedList<String>()
+
+        val statement = connection.createStatement()
+        val pragmaQuery = "PRAGMA table_info($tableName);"
+        val resultSet = statement.executeQuery(pragmaQuery)
+
+        while (resultSet.next()) {
+            if (!filter(resultSet)) {
+                continue
+            }
+
+            val existingColumn: String = resultSet.getString("name")
+            result.add(existingColumn)
+        }
+
+        return result
     }
 }
