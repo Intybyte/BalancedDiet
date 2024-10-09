@@ -25,9 +25,11 @@ object FoodMapper {
                 BalancedDiet.logger.severe("You can't have a food type called 'player' as it is reserved internally. Skipping config line.")
                 continue
             }
+
+            FoodTypes.add(foodType.lowercase())
             val list = file.getStringList(foodType).map { Material.valueOf(it) }
             val set = EnumSet.copyOf(list)
-            mapper[foodType.uppercase()] = set
+            mapper[foodType.lowercase()] = set
         }
 
         debugAllEntries()
