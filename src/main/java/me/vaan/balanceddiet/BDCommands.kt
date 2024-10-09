@@ -21,7 +21,7 @@ object BDCommands : BaseCommand() {
         player.printDivider()
         player.sendMessage("              DIET STATS              ")
         player.printDivider()
-        val record = DietManager[player.name]
+        val record = DietManager[player.uniqueId]
         record.print(player)
         player.printDivider()
 
@@ -45,7 +45,7 @@ object BDCommands : BaseCommand() {
         commandSender.sendMessage("              DIET STATS              ")
         commandSender.printDivider()
 
-        val record = DietManager[playerName]
+        val record = DietManager[player.uniqueId]
         record.print(commandSender)
         commandSender.printDivider()
 
@@ -80,7 +80,7 @@ object BDCommands : BaseCommand() {
     @Description("Clears your player diet")
     @Subcommand("clear")
     fun clear(player: Player) {
-        DietManager[player.name] = DietData()
+        DietManager[player.uniqueId] = DietData()
         player.sendMessage("Success!")
     }
 
@@ -94,7 +94,7 @@ object BDCommands : BaseCommand() {
             return
         }
 
-        DietManager[playerName] = DietData()
+        DietManager[player.uniqueId] = DietData()
         commandSender.sendMessage("Success!")
     }
 

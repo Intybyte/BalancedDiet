@@ -23,7 +23,7 @@ object EatingListener : Listener {
         val foodType = FoodMapper.map(food)
         foodType ?: return
 
-        val record = DietManager[player.name]
+        val record = DietManager[player.uniqueId]
 
         val foodComponent = item.getFoodComponent() ?: return
         val value = record[foodType]

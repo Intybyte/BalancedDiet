@@ -20,7 +20,7 @@ object CakeEatingListener : Listener {
         val player = event.player
 
         //only add data, so it won't be used to spam effects
-        val record = DietManager[player.name]
+        val record = DietManager[player.uniqueId]
         record.addData(foodType, 1 * 4)
     }
 }

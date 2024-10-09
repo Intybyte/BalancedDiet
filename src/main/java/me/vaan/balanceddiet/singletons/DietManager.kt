@@ -14,21 +14,21 @@ import java.util.concurrent.ConcurrentHashMap
 object DietManager {
     private const val dbName = "dietDatabase.db"
     private lateinit var connection: Connection
-    private val database = ConcurrentHashMap<String, DietData>()
+    private val database = ConcurrentHashMap<UUID, DietData>()
 
-    private fun initRecord(name: String) {
-        if(database[name] == null) {
-            database[name] = DietData()
+    private fun initRecord(id: UUID) {
+        if(database[id] == null) {
+            database[id] = DietData()
         }
     }
 
-    operator fun get(name: String): DietData {
-        initRecord(name)
-        return database[name]!!
+    operator fun get(id: UUID): DietData {
+        initRecord(id)
+        return database[id]!!
     }
 
-    operator fun set(name: String, data: DietData) {
-        database[name] = data
+    operator fun set(id: UUID, data: DietData) {
+        database[id] = data
     }
 
     fun save(async: Boolean) {
@@ -43,7 +43,7 @@ object DietManager {
 
                 val statement = connection
                     .prepareStatement("REPLACE INTO diet (player, $fieldsToChange) VALUES ($placeholders)")
-                statement.setString(1, player)
+                statement.setString(1, player.toString())
 
                 for (i in registry.indices) {
                     statement.setInt(i + 2, foodData[registry[i]])
@@ -82,7 +82,7 @@ object DietManager {
     fun load() {
         val resultSet: ResultSet = connection.createStatement().executeQuery("SELECT * FROM diet")
         while (resultSet.next()) {
-            val player = resultSet.getString("player")
+            val player = UUID.fromString(resultSet.getString("player"))
             val tempData = DietData()
             for (entry in FoodTypes.getRegistry()) {
                 try {

@@ -15,7 +15,7 @@ object HungerDecayListener : Listener {
         val player = event.entity
         if(event.foodLevel >= player.foodLevel) return
 
-        val record = DietManager[player.name]
+        val record = DietManager[player.uniqueId]
         record.decreaseAll(1)
     }
 }
