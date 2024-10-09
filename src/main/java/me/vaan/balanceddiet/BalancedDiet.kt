@@ -17,30 +17,27 @@ import java.io.IOException
 import java.util.logging.Logger
 
 class BalancedDiet : JavaPlugin() {
-    companion object {
-        private lateinit var _instance: BalancedDiet
-        private var _debug: Boolean = false
-        private lateinit var _logger: Logger
+    companion object Static {
+        
+        var logger: Logger? = null
+            private set
 
-        val logger: Logger
-            get() = _logger
+        var instance: BalancedDiet? = null
+            private set
 
-        val instance: BalancedDiet
-            get() = _instance
-
-        val debug: Boolean
-            get() = _debug
+        var debug: Boolean = false
+            private set
 
         fun debug(s: String) {
-            if (_debug) {
-                Bukkit.getLogger().info(s)
+            if (debug) {
+                logger?.info(s)
             }
         }
     }
 
     override fun onEnable() {
-        _instance = this
-        _logger = this.logger
+        instance = this
+        Static.logger = this.logger
         initFiles()
         initCommands()
         initListeners()
@@ -72,7 +69,7 @@ class BalancedDiet : JavaPlugin() {
         getFile("foodTypes.yml")
         getFile("foodEffects.yml")
 
-        _debug = config.getBoolean("debug")
+        debug = config.getBoolean("debug")
     }
 
     fun getFile(path: String) : File {

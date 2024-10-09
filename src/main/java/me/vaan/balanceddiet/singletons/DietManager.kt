@@ -54,7 +54,7 @@ object DietManager {
         }
 
         if (async) {
-            Bukkit.getScheduler().runTaskAsynchronously(BalancedDiet.instance, runnable)
+            Bukkit.getScheduler().runTaskAsynchronously(BalancedDiet.instance!!, runnable)
         } else {
             runnable.invoke()
         }
@@ -89,7 +89,7 @@ object DietManager {
                     val foodEntryValue = resultSet.getInt(entry)
                     tempData[entry] = foodEntryValue
                 } catch (e: Exception) {
-                    BalancedDiet.logger.warning("Error loading database: $entry not found")
+                    BalancedDiet.logger!!.warning("Error loading database: $entry not found")
                     tempData[entry] = 0
                 }
             }

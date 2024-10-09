@@ -22,7 +22,7 @@ object FoodMapper {
     fun load(file: FileConfiguration) {
         for (foodType in file.getKeys(false)) {
             if (foodType == "player") {
-                BalancedDiet.logger.severe("You can't have a food type called 'player' as it is reserved internally. Skipping config line.")
+                BalancedDiet.logger!!.severe("You can't have a food type called 'player' as it is reserved internally. Skipping config line.")
                 continue
             }
 
@@ -57,7 +57,7 @@ object FoodMapper {
         for (entry in mapper) {
             for (food in entry.value) {
                 if (!food.isEdible && food != Material.CAKE) {
-                    Bukkit.getLogger().warning("Entry $food is not edible in entry ${entry.key}")
+                    BalancedDiet.logger!!.warning("Entry $food is not edible in entry ${entry.key}")
                 }
             }
         }
