@@ -46,6 +46,11 @@ class BalancedDiet : JavaPlugin() {
         FoodEffects.load( getFile("foodEffects.yml") )
         DietManager.init(this)
         DietManager.load()
+
+        val min15 = 15 * 60 * 20L  //save every 15 min
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, Runnable {
+            DietManager.save(true)
+        }, min15, min15)
     }
 
     override fun onDisable() {

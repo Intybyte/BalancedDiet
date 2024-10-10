@@ -26,10 +26,11 @@ object FoodMapper {
                 continue
             }
 
-            FoodTypes.add(foodType.lowercase())
-            val list = file.getStringList(foodType).map { Material.valueOf(it) }
+            val lowerFood = foodType.lowercase()
+            FoodTypes.add(lowerFood)
+            val list = file.getStringList(foodType).map(Material::valueOf)
             val set = EnumSet.copyOf(list)
-            mapper[foodType.lowercase()] = set
+            mapper[lowerFood] = set
         }
 
         debugAllEntries()
@@ -37,6 +38,7 @@ object FoodMapper {
         checkForgottenEdibles()
     }
 
+    //region Debug methods
     private fun debugAllEntries() {
         if (!BalancedDiet.debug) return
 
@@ -70,4 +72,5 @@ object FoodMapper {
             type ?: BalancedDiet.debug("The food $food isn't mapped to anything, you might want to change that")
         }
     }
+    //endregion
 }

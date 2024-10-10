@@ -1,13 +1,13 @@
 package me.vaan.balanceddiet.data
 
 object FoodTypes {
-    private val registry: MutableList<String> = ArrayList()
+    private val registry: HashSet<String> = HashSet()
 
     fun add(entry: String) {
         registry.add(entry)
     }
 
-    fun getRegistry(): MutableList<String> {
+    fun getRegistry(): HashSet<String> {
         return registry
     }
 }

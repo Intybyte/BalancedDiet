@@ -8,15 +8,13 @@ import kotlin.math.max
 class DietData {
     private val _data = ConcurrentHashMap<String, Int>()
 
-    constructor(values: IntArray) {
-        val foodTypes = FoodTypes.getRegistry()
 
-        for (i in values.indices) {
-            _data[foodTypes[i]] = values[i]
+    init {
+        val foodTypes = FoodTypes.getRegistry()
+        foodTypes.forEach {
+            _data[it] = 0
         }
     }
-
-    constructor() : this( IntArray(FoodTypes.getRegistry().size) { 0 } )
 
     fun toIntArray() : IntArray {
         return _data.values.toIntArray()
