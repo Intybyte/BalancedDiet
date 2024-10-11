@@ -3,6 +3,7 @@ package me.vaan.balanceddiet.extension
 import me.vaan.balanceddiet.singletons.FoodEffects
 import net.kyori.adventure.audience.Audience
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.TextComponent
 import net.minecraft.core.component.DataComponents
 import net.minecraft.world.food.FoodProperties
 import org.bukkit.craftbukkit.inventory.CraftItemStack
@@ -33,4 +34,8 @@ fun ItemStack.getFoodComponent() : FoodProperties? {
 
 fun Audience.printDivider() {
     this.sendMessage(Component.text("=".repeat(34)))
+}
+
+fun Component.textContent() : String {
+    return (this as TextComponent).content()
 }

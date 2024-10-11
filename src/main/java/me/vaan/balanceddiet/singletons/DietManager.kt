@@ -45,8 +45,9 @@ object DietManager {
                     .prepareStatement("REPLACE INTO diet (player, $fieldsToChange) VALUES ($placeholders)")
                 statement.setString(1, player.toString())
 
-                for (i in registry.indices) {
-                    statement.setInt(i + 2, foodData[registry[i]])
+                var i = 2
+                for (food in registry) {
+                    statement.setInt(i++, foodData[food])
                 }
 
                 statement.execute()
