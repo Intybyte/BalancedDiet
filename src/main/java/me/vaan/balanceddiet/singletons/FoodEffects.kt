@@ -1,6 +1,7 @@
 package me.vaan.balanceddiet.singletons
 
 import me.vaan.balanceddiet.BalancedDiet
+import me.vaan.balanceddiet.ConfigStorage
 import me.vaan.balanceddiet.data.DietEffect
 import net.kyori.adventure.audience.Audience
 import net.kyori.adventure.text.Component
@@ -68,7 +69,7 @@ object FoodEffects {
     }
 
     private fun debugAllEntries() {
-        if (!BalancedDiet.debug) return
+        if (!ConfigStorage.debug) return
 
         for (entry in mapper) {
             BalancedDiet.debug("Key: ${entry.key} | Value: ${entry.value}")

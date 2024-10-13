@@ -1,6 +1,7 @@
 package me.vaan.balanceddiet.singletons
 
 import me.vaan.balanceddiet.BalancedDiet
+import me.vaan.balanceddiet.ConfigStorage
 import me.vaan.balanceddiet.data.FoodEntry
 import me.vaan.balanceddiet.data.FoodTypes
 import me.vaan.balanceddiet.extension.isDietEdible
@@ -72,7 +73,7 @@ object FoodMapper {
 
     //region Debug methods
     private fun debugAllEntries() {
-        if (!BalancedDiet.debug) return
+        if (!ConfigStorage.debug) return
 
         for (entry in mapper) {
             BalancedDiet.debug("Food mapper init key: ${entry.key}")

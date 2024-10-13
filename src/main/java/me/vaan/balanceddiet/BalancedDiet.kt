@@ -25,11 +25,8 @@ class BalancedDiet : JavaPlugin() {
         var instance: BalancedDiet? = null
             private set
 
-        var debug: Boolean = false
-            private set
-
         fun debug(s: String) {
-            if (debug) {
+            if (ConfigStorage.debug) {
                 logger?.info(s)
             }
         }
@@ -73,8 +70,7 @@ class BalancedDiet : JavaPlugin() {
         saveDefaultConfig()
         getFile("foodTypes.yml")
         getFile("foodEffects.yml")
-
-        debug = config.getBoolean("debug")
+        ConfigStorage.load(config)
     }
 
     fun getFile(path: String) : File {
