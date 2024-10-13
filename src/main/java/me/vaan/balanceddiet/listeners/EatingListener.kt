@@ -17,10 +17,9 @@ object EatingListener : Listener {
         if (player.gameMode == GameMode.CREATIVE) return
 
         val item = event.item
-        val food = item.type
-        if (!food.isEdible) return
+        if (!item.type.isEdible) return
 
-        val foodType = FoodMapper.map(food)
+        val foodType = FoodMapper.map(item)
         foodType ?: return
 
         val record = DietManager[player.uniqueId]

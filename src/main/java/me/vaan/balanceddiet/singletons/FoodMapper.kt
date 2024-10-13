@@ -3,17 +3,38 @@ package me.vaan.balanceddiet.singletons
 import me.vaan.balanceddiet.BalancedDiet
 import me.vaan.balanceddiet.data.FoodEntry
 import me.vaan.balanceddiet.data.FoodTypes
+import me.vaan.balanceddiet.extension.isDietEdible
+import me.vaan.balanceddiet.extension.textContent
 import org.bukkit.Material
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.inventory.ItemStack
-import java.util.*
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.collections.HashSet
 
 object FoodMapper {
     private val mapper = ConcurrentHashMap<String, HashSet<FoodEntry>>()
+    private val defaultMapper = ConcurrentHashMap<Material, String>()
 
-    //TODO make a map of nameless items and use both maps
     fun map(food: ItemStack) : String? {
+        val display = food.displayName().textContent()
+
+        val type = food.type
+        if (display.isEmpty()) return defaultMapper[type]
+        val foundKey = searchDisplayName(food)
+        foundKey ?: return defaultMapper[type]
+
+        return foundKey
+    }
+
+    private fun searchDisplayName(food: ItemStack) : String? {
+        for (entry in mapper) {
+            val searchEntry = FoodEntry(food)
+
+            if (searchEntry in entry.value) {
+                return entry.key
+            }
+        }
+
         return null
     }
 
@@ -27,16 +48,19 @@ object FoodMapper {
             val lowerFood = foodType.lowercase()
             FoodTypes.add(lowerFood)
             val list = file.getStringList(foodType)
-            val set = list.map {
+            val set = HashSet<FoodEntry>()
+            list.forEach {
                 val elements = it.split(";")
                 val material = Material.valueOf(elements[0])
 
-                FoodEntry(material,
-                    display = if (elements.size == 1) null
-                              else elements[2]
-                )
-            }.toHashSet()
-
+                if (elements.size == 1) {
+                    defaultMapper[material] = lowerFood
+                } else {
+                    set.add(
+                        FoodEntry(material, elements[1])
+                    )
+                }
+            }
 
             mapper[lowerFood] = set
         }
@@ -52,13 +76,7 @@ object FoodMapper {
 
         for (entry in mapper) {
             BalancedDiet.debug("Food mapper init key: ${entry.key}")
-
-            var s = "["
-            for (food in entry.value) {
-                s += "$food, "
-            }
-            s+=']'
-
+            val s = "[" + entry.value.joinToString(",") + "]"
             BalancedDiet.debug(s)
         }
     }
@@ -66,18 +84,25 @@ object FoodMapper {
     private fun checkInedible() {
         for (entry in mapper) {
             for (food in entry.value) {
-                if (!food.material.isEdible && food.material != Material.CAKE) {
+                if (!food.material.isDietEdible()) {
                     BalancedDiet.logger!!.warning("Entry $food is not edible in entry ${entry.key}")
                 }
+            }
+        }
+
+        for (entry in defaultMapper) {
+            val material = entry.key
+            if (!material.isDietEdible()) {
+                BalancedDiet.logger!!.warning("Default Entry $material is not edible in entry ${entry.value}")
             }
         }
     }
 
     private fun checkForgottenEdibles() {
-        val foods = Material.entries.filter { it.isEdible }
+        val foods = Material.entries.filter { it.isDietEdible() }
         for (food in foods) {
-            val type = map(ItemStack(food))
-            type ?: BalancedDiet.debug("The food $food isn't mapped to anything, you might want to change that")
+            defaultMapper[food]
+                ?: BalancedDiet.logger!!.warning("The food $food isn't mapped to any default, you might want to change that")
         }
     }
     //endregion

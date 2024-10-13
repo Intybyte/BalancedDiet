@@ -6,6 +6,7 @@ import org.bukkit.Material
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.inventory.ItemStack
 
 object CakeEatingListener : Listener {
     @EventHandler
@@ -16,7 +17,7 @@ object CakeEatingListener : Listener {
 
         if (cake.type != Material.CAKE) return
 
-        val foodType = FoodMapper.map(Material.CAKE) ?: return
+        val foodType = FoodMapper.map(ItemStack(Material.CAKE)) ?: return
         val player = event.player
 
         //only add data, so it won't be used to spam effects

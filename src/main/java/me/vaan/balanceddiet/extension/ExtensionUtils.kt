@@ -6,6 +6,7 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.TextComponent
 import net.minecraft.core.component.DataComponents
 import net.minecraft.world.food.FoodProperties
+import org.bukkit.Material
 import org.bukkit.craftbukkit.inventory.CraftItemStack
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -38,4 +39,8 @@ fun Audience.printDivider() {
 
 fun Component.textContent() : String {
     return (this as TextComponent).content()
+}
+
+fun Material.isDietEdible() : Boolean {
+    return this == Material.CAKE || this.isEdible
 }
