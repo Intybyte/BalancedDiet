@@ -1,6 +1,7 @@
 package me.vaan.balanceddiet
 
 import co.aikar.commands.PaperCommandManager
+import me.vaan.balanceddiet.config.ConfigStorage
 import me.vaan.balanceddiet.singletons.DietManager
 import me.vaan.balanceddiet.singletons.FoodEffects
 import me.vaan.balanceddiet.singletons.FoodMapper

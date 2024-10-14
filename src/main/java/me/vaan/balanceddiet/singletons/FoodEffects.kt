@@ -1,7 +1,7 @@
 package me.vaan.balanceddiet.singletons
 
 import me.vaan.balanceddiet.BalancedDiet
-import me.vaan.balanceddiet.ConfigStorage
+import me.vaan.balanceddiet.config.ConfigStorage
 import me.vaan.balanceddiet.data.DietEffect
 import net.kyori.adventure.audience.Audience
 import net.kyori.adventure.text.Component

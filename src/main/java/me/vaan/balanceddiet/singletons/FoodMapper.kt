@@ -1,7 +1,7 @@
 package me.vaan.balanceddiet.singletons
 
 import me.vaan.balanceddiet.BalancedDiet
-import me.vaan.balanceddiet.ConfigStorage
+import me.vaan.balanceddiet.config.ConfigStorage
 import me.vaan.balanceddiet.data.FoodEntry
 import me.vaan.balanceddiet.data.FoodTypes
 import me.vaan.balanceddiet.extension.isDietEdible

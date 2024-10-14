@@ -1,6 +1,7 @@
 package me.vaan.balanceddiet.listeners
 
 import me.vaan.balanceddiet.BalancedDiet
+import me.vaan.balanceddiet.config.ConfigStorage
 import me.vaan.balanceddiet.singletons.DietManager
 import me.vaan.balanceddiet.singletons.FoodMapper
 import me.vaan.balanceddiet.extension.applyFoodEffect
@@ -28,7 +29,8 @@ object EatingListener : Listener {
         val value = record[foodType]
         player.applyFoodEffect(value, foodComponent)
 
-        val changedValue = ((foodComponent.nutrition + foodComponent.saturation) * 2).toInt()
+        val changedValue = ConfigStorage.calc(foodComponent.nutrition, foodComponent.saturation)
+
         BalancedDiet.debug("FoodValue: $value | Adding: $changedValue")
         record.addData(foodType, changedValue)
         BalancedDiet.debug("New Value: " + record[foodType])

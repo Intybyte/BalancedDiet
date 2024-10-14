@@ -1,1 +1,12 @@
 debug: false
+
+calculation:
+  # Default formula to calculate the diet points is
+  # (saturation + nutrition) * 2.0
+  # You can change the full formula this way:
+  # [(saturation + nutrition + base-offset) * multiplier] + after-offset
+  use-nutrition: true
+  use-saturation: true
+  base-offset: 0
+  multiplier: 2.0
+  after-offset: 0
