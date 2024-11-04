@@ -17,10 +17,10 @@ object FoodMapper {
     private val defaultMapper = ConcurrentHashMap<Material, String>()
 
     fun map(food: ItemStack) : String? {
-        val display = food.displayName().textContent()
+        val display = food.itemMeta.displayName()?.textContent()
 
         val type = food.type
-        if (display.isEmpty()) return defaultMapper[type]
+        if (display.isNullOrEmpty()) return defaultMapper[type]
         val foundKey = searchDisplayName(food)
         foundKey ?: return defaultMapper[type]
 
@@ -28,9 +28,10 @@ object FoodMapper {
     }
 
     private fun searchDisplayName(food: ItemStack) : String? {
-        for (entry in mapper) {
-            val searchEntry = FoodEntry(food)
+        val searchEntry = FoodEntry(food)
+        searchEntry.display ?: return null
 
+        for (entry in mapper) {
             if (searchEntry in entry.value) {
                 return entry.key
             }
