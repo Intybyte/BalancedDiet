@@ -1,7 +1,10 @@
+import net.minecrell.pluginyml.bukkit.BukkitPluginDescription.Permission.Default.*
+
 plugins {
     kotlin("jvm") version "2.1.0-Beta1"
     id("io.github.goooler.shadow") version "8.1.7"
     id("io.papermc.paperweight.userdev") version "1.7.1"
+    id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
 }
 
 group = "me.vaan"
@@ -16,10 +19,54 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.20")
+    library(kotlin("stdlib"))
     testImplementation("org.jetbrains.kotlin:kotlin-test:2.0.20")
-    implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT")
+    library("co.aikar:acf-paper:0.5.1-SNAPSHOT")
+    library("com.github.stefvanschie.inventoryframework:IF:0.10.18")
     paperweight.paperDevBundle("1.21.1-R0.1-SNAPSHOT")
+}
+
+bukkit {
+    name = "BalancedDiet"
+    main = "me.vaan.balanceddiet.BalancedDiet"
+    apiVersion = "1.20"
+    version = project.version.toString()
+    author = "Vaan1310"
+    permissions {
+        register("balanceddiet.command.*") {
+            children = listOf(
+                "balanceddiet.command.profile",
+                "balanceddiet.command.effects",
+                "balanceddiet.command.save",
+                "balanceddiet.command.profile.other",
+                "balanceddiet.command.clear"
+            )
+            default = OP
+        }
+
+        register("balanceddiet.command.profile") {
+            default = TRUE
+        }
+
+        register("balanceddiet.command.effects") {
+            default = TRUE
+        }
+
+        register("balanceddiet.command.save") {
+            description = "Saves to the database async"
+            default = FALSE
+        }
+
+        register("balanceddiet.command.profile.other") {
+            description = "Gives info about another player diet"
+            default = FALSE
+        }
+
+        register("balanceddiet.command.clear") {
+            description = "Clears your or another player diet"
+            default = FALSE
+        }
+    }
 }
 
 paperweight.reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION
@@ -45,8 +92,10 @@ tasks.processResources {
 tasks.shadowJar {
     dependencies {
         include(dependency("co.aikar:acf-paper:0.5.1-SNAPSHOT"))
+        include(dependency("com.github.stefvanschie.inventoryframework:IF:0.10.18"))
     }
 
+    relocate("com.github.stefvanschie.inventoryframework", "me.vaan.inventoryframework")
     relocate("co.aikar.commands", "me.vaan.acf")
     relocate("co.aikar.locales", "me.vaan.locales")
 }
