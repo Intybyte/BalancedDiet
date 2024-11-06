@@ -15,6 +15,7 @@ repositories {
     maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
     maven { url = uri("https://oss.sonatype.org/content/groups/public/") }
     maven { url = uri("https://repo.aikar.co/content/groups/aikar/") }
+    maven("https://repo.xenondevs.xyz/releases/")
 }
 
 dependencies {
@@ -22,7 +23,7 @@ dependencies {
     library(kotlin("stdlib"))
     testImplementation("org.jetbrains.kotlin:kotlin-test:2.0.20")
     library("co.aikar:acf-paper:0.5.1-SNAPSHOT")
-    library("com.github.stefvanschie.inventoryframework:IF:0.10.18")
+    library("xyz.xenondevs.invui:invui:1.40")
     paperweight.paperDevBundle("1.21.1-R0.1-SNAPSHOT")
 }
 
@@ -92,10 +93,10 @@ tasks.processResources {
 tasks.shadowJar {
     dependencies {
         include(dependency("co.aikar:acf-paper:0.5.1-SNAPSHOT"))
-        include(dependency("com.github.stefvanschie.inventoryframework:IF:0.10.18"))
+        include(dependency("xyz.xenondevs.invui:invui:1.40"))
     }
 
-    relocate("com.github.stefvanschie.inventoryframework", "me.vaan.inventoryframework")
+    relocate("xyz.xenondevs.invui", "me.vaan.invui")
     relocate("co.aikar.commands", "me.vaan.acf")
     relocate("co.aikar.locales", "me.vaan.locales")
 }
