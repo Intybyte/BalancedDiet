@@ -26,10 +26,7 @@ object Menu {
         .addIngredient('<', BackItem())
         .addIngredient('>', NextItem())
     fun dietMenu(player: Player): Gui {
-        val skull = ItemStack(Material.PLAYER_HEAD)
-        val skullMeta = skull.itemMeta as SkullMeta
-        skullMeta.setOwningPlayer(player)
-        skull.itemMeta = skullMeta
+        val skull = player.head
 
         val foodItem = ItemBuilder(skull)
             .setDisplayName("Food Stats")
@@ -43,5 +40,13 @@ object Menu {
             .build()
 
         return gui
+    }
+
+    private val Player.head : ItemStack get() {
+        val skull = ItemStack(Material.PLAYER_HEAD)
+        val skullMeta = skull.itemMeta as SkullMeta
+        skullMeta.setOwningPlayer(player)
+        skull.itemMeta = skullMeta
+        return skull
     }
 }
