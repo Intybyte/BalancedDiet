@@ -16,10 +16,6 @@ class DietData {
         }
     }
 
-    fun toIntArray() : IntArray {
-        return _data.values.toIntArray()
-    }
-
     fun decreaseAll(amount: Int) {
         val foodTypes = FoodTypes.getRegistry()
 
@@ -45,5 +41,9 @@ class DietData {
         _data.forEach { (t, u) ->
             p.sendMessage(Component.text("$t => Consumed $u"))
         }
+    }
+
+    fun <T> map(consumer: (Map.Entry<String, Int>) -> T) : List<T> {
+        return _data.map(consumer).toMutableList()
     }
 }
