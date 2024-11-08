@@ -1,7 +1,6 @@
 package me.vaan.balanceddiet.extension
 
 import me.vaan.balanceddiet.singletons.FoodEffects
-import net.kyori.adventure.audience.Audience
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.TextComponent
 import net.minecraft.core.component.DataComponents
@@ -31,10 +30,6 @@ fun Player.applyFoodEffect(value: Int, foodComponent: FoodProperties) {
 fun ItemStack.getFoodComponent() : FoodProperties? {
     val nmsCopy = CraftItemStack.asNMSCopy(this)
     return nmsCopy.components[DataComponents.FOOD]
-}
-
-fun Audience.printDivider() {
-    this.sendMessage(Component.text("=".repeat(34)))
 }
 
 fun Component.textContent() : String {

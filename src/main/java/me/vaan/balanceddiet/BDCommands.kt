@@ -5,10 +5,11 @@ import co.aikar.commands.annotation.*
 import me.vaan.balanceddiet.data.DietData
 import me.vaan.balanceddiet.singletons.DietManager
 import me.vaan.balanceddiet.singletons.FoodEffects
-import me.vaan.balanceddiet.extension.printDivider
+import me.vaan.balanceddiet.menu.Menu
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import xyz.xenondevs.invui.window.Window
 
 @CommandAlias("diet")
 @Description("Base command of BalancedDiet plugin")
@@ -18,55 +19,44 @@ object BDCommands : BaseCommand() {
     @Description("Gives info about the player diet")
     @Subcommand("profile")
     fun profile(player: Player) {
-        player.printDivider()
-        player.sendMessage("              DIET STATS              ")
-        player.printDivider()
-        val record = DietManager[player.uniqueId]
-        record.print(player)
-        player.printDivider()
+        val gui = Menu.dietMenu(player) ?: return
 
-        val outputFood = "Food: " + player.foodLevel + "     Saturation: "  + player.saturation.toInt()
-        player.sendMessage("   $outputFood")
-        player.printDivider()
+        val window = Window.single()
+            .setViewer(player)
+            .setTitle("Your Diet Profile")
+            .setGui(gui)
+            .build()
+
+        window.open()
     }
 
     @CommandPermission("balanceddiet.command.profile.other")
     @Description("Gives info about another player diet")
     @Subcommand("profile")
-    fun otherProfile(commandSender: CommandSender, playerName: String) {
-        val player = Bukkit.getOfflinePlayer(playerName)
+    fun otherProfile(player: Player, playerName: String) {
+        val subject = Bukkit.getOfflinePlayer(playerName)
 
-        if (!player.hasPlayedBefore()) {
-            commandSender.sendMessage("Player not found!")
+        val gui = Menu.dietMenu(subject)
+        if (gui == null) {
+            player.sendMessage("Player not found!")
             return
         }
 
-        commandSender.printDivider()
-        commandSender.sendMessage("              DIET STATS              ")
-        commandSender.printDivider()
+        val window = Window.single()
+            .setViewer(player)
+            .setTitle("$playerName's Diet Profile")
+            .setGui(gui)
+            .build()
 
-        val record = DietManager[player.uniqueId]
-        record.print(commandSender)
-        commandSender.printDivider()
-
-        // print food and saturation if player is online too
-        val onlinePlayer = player.player
-        if (onlinePlayer != null) {
-            val outputFood = "Food: " + onlinePlayer.foodLevel + "     Saturation: "  + onlinePlayer.saturation.toInt()
-            commandSender.sendMessage("   $outputFood")
-            commandSender.printDivider()
-        }
+        window.open()
     }
 
     @CommandPermission("balanceddiet.command.effects")
     @Description("Gives info about the positive/negative effects of follow a good/bad diet")
     @Subcommand("effects")
     fun effects(sender: CommandSender) {
-        sender.printDivider()
         sender.sendMessage("             FOOD EFFECTS             ")
-        sender.printDivider()
         FoodEffects.print(sender)
-        sender.printDivider()
     }
 
     @CommandPermission("balanceddiet.command.save")
