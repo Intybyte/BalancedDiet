@@ -2,6 +2,7 @@ package me.vaan.balanceddiet.menu
 
 import me.vaan.balanceddiet.singletons.DietManager
 import org.bukkit.Material
+import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
@@ -27,12 +28,20 @@ object Menu {
         .addIngredient('<', BackItem())
         .addIngredient('>', NextItem())
 
-    fun dietMenu(player: Player): Gui {
+    fun dietMenu(player: OfflinePlayer): Gui? {
+        if (!player.hasPlayedBefore()) return null
         val skull = player.head
 
-        val foodItem = ItemBuilder(skull)
+        var foodItem = ItemBuilder(skull)
             .setDisplayName("Food Stats")
-            .addLoreLines("", "Food: ${player.foodLevel}", "Saturation: ${player.saturation}")
+            .addLoreLines("")
+
+        val onlinePlayer = player.player
+        foodItem = if (onlinePlayer == null) {
+            foodItem.addLoreLines("Player must be online to check this info.")
+        } else {
+            foodItem.addLoreLines("Food: ${onlinePlayer.foodLevel}", "Saturation: ${onlinePlayer.saturation}")
+        }
 
         val record = DietManager[player.uniqueId]
         val items = record.map {
@@ -52,7 +61,7 @@ object Menu {
         return gui
     }
 
-    private val Player.head : ItemStack get() {
+    private val OfflinePlayer.head : ItemStack get() {
         val skull = ItemStack(Material.PLAYER_HEAD)
         val skullMeta = skull.itemMeta as SkullMeta
         skullMeta.setOwningPlayer(player)
