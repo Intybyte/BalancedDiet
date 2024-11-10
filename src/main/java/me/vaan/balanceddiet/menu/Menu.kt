@@ -3,7 +3,6 @@ package me.vaan.balanceddiet.menu
 import me.vaan.balanceddiet.singletons.DietManager
 import org.bukkit.Material
 import org.bukkit.OfflinePlayer
-import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
 import xyz.xenondevs.invui.gui.Gui
@@ -27,6 +26,8 @@ object Menu {
         .addIngredient('x', Markers.CONTENT_LIST_SLOT_HORIZONTAL)
         .addIngredient('<', BackItem())
         .addIngredient('>', NextItem())
+        .setContent(ArrayList()) //invui bs
+        .setPageChangeHandlers(ArrayList()) // more invui bs
 
     fun dietMenu(player: OfflinePlayer): Gui? {
         if (!player.hasPlayedBefore()) return null

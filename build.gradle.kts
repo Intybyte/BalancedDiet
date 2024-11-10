@@ -22,8 +22,13 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
     library(kotlin("stdlib"))
     testImplementation("org.jetbrains.kotlin:kotlin-test:2.0.20")
-    library("co.aikar:acf-paper:0.5.1-SNAPSHOT")
-    library("xyz.xenondevs.invui:invui:1.40")
+    implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT")
+    implementation("xyz.xenondevs.invui:invui-core:1.40")
+    implementation("xyz.xenondevs.invui:inventory-access:1.40")
+    implementation("xyz.xenondevs.invui:inventory-access-r19:1.40")
+    implementation("xyz.xenondevs.invui:inventory-access-r20:1.40")
+    implementation("xyz.xenondevs.invui:inventory-access-r21:1.40")
+    implementation("xyz.xenondevs.invui:invui-kotlin:1.40")
     paperweight.paperDevBundle("1.21.1-R0.1-SNAPSHOT")
 }
 
@@ -93,10 +98,16 @@ tasks.processResources {
 tasks.shadowJar {
     dependencies {
         include(dependency("co.aikar:acf-paper:0.5.1-SNAPSHOT"))
-        include(dependency("xyz.xenondevs.invui:invui:1.40"))
+        include(dependency("xyz.xenondevs.invui:invui-core:1.40"))
+        include(dependency("xyz.xenondevs.invui:invui-kotlin:1.40"))
+        include(dependency("xyz.xenondevs.invui:inventory-access:1.40"))
+        include(dependency("xyz.xenondevs.invui:inventory-access-r19:1.40"))
+        include(dependency("xyz.xenondevs.invui:inventory-access-r20:1.40"))
+        include(dependency("xyz.xenondevs.invui:inventory-access-r21:1.40"))
     }
 
-    relocate("xyz.xenondevs.invui", "me.vaan.invui")
-    relocate("co.aikar.commands", "me.vaan.acf")
-    relocate("co.aikar.locales", "me.vaan.locales")
+    relocate("xyz.xenondevs.invui", "me.vaan.balanceddiet.deps.invui")
+    relocate("xyz.xenondevs.inventoryaccess", "me.vaan.balanceddiet.deps.inventoryaccess")
+    relocate("co.aikar.commands", "me.vaan.balanceddiet.deps.acf")
+    relocate("co.aikar.locales", "me.vaan.balanceddiet.deps.locales")
 }
