@@ -13,6 +13,7 @@ import org.bukkit.configuration.InvalidConfigurationException
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.java.JavaPlugin
+import xyz.xenondevs.inventoryaccess.version.InventoryAccessRevision
 import java.io.File
 import java.io.IOException
 import java.util.logging.Logger
@@ -39,6 +40,10 @@ class BalancedDiet : JavaPlugin() {
         initFiles()
         initCommands()
         initListeners()
+
+        InventoryAccessRevision.R1
+        InventoryAccessRevision.REQUIRED_REVISION
+        println(InventoryAccessRevision.REQUIRED_REVISION)
 
         FoodMapper.load( getConfiguration("foodTypes.yml") )
         FoodEffects.load( getFile("foodEffects.yml") )
