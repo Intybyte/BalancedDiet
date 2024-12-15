@@ -23,12 +23,7 @@ dependencies {
     library(kotlin("stdlib"))
     testImplementation("org.jetbrains.kotlin:kotlin-test:2.0.20")
     implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT")
-    implementation("xyz.xenondevs.invui:invui-core:1.41")
-    implementation("xyz.xenondevs.invui:inventory-access:1.41")
-    implementation("xyz.xenondevs.invui:inventory-access-r19:1.41")
-    implementation("xyz.xenondevs.invui:inventory-access-r20:1.41")
-    implementation("xyz.xenondevs.invui:inventory-access-r21:1.41")
-    implementation("xyz.xenondevs.invui:invui-kotlin:1.41")
+    implementation("com.github.stefvanschie.inventoryframework:IF:0.10.19")
     paperweight.paperDevBundle("1.21.1-R0.1-SNAPSHOT")
 }
 
@@ -96,27 +91,11 @@ tasks.processResources {
 }
 
 tasks.shadowJar {
-    minimize {
-        exclude(dependency("co.aikar:acf-paper:0.5.1-SNAPSHOT"))
-        exclude(dependency("xyz.xenondevs.invui:invui-core:1.41"))
-        exclude(dependency("xyz.xenondevs.invui:invui-kotlin:1.41"))
-        exclude(dependency("xyz.xenondevs.invui:inventory-access:1.41"))
-        exclude(dependency("xyz.xenondevs.invui:inventory-access-r19:1.41"))
-        exclude(dependency("xyz.xenondevs.invui:inventory-access-r20:1.41"))
-        exclude(dependency("xyz.xenondevs.invui:inventory-access-r21:1.41"))
-    }
-
     dependencies {
         include(dependency("co.aikar:acf-paper:0.5.1-SNAPSHOT"))
-        include(dependency("xyz.xenondevs.invui:invui-core:1.41"))
-        include(dependency("xyz.xenondevs.invui:invui-kotlin:1.41"))
-        include(dependency("xyz.xenondevs.invui:inventory-access:1.41"))
-        include(dependency("xyz.xenondevs.invui:inventory-access-r19:1.41"))
-        include(dependency("xyz.xenondevs.invui:inventory-access-r20:1.41"))
-        include(dependency("xyz.xenondevs.invui:inventory-access-r21:1.41"))
+        include(dependency("com.github.stefvanschie.inventoryframework:IF:0.10.19"))
     }
 
-    relocate("xyz.xenondevs.invui", "me.vaan.balanceddiet.deps.invui")
     relocate("co.aikar.commands", "me.vaan.balanceddiet.deps.acf")
     relocate("co.aikar.locales", "me.vaan.balanceddiet.deps.locales")
 }
