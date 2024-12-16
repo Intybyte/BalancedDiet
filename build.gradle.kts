@@ -23,7 +23,12 @@ dependencies {
     library(kotlin("stdlib"))
     testImplementation("org.jetbrains.kotlin:kotlin-test:2.0.20")
     implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT")
-    implementation("com.github.stefvanschie.inventoryframework:IF:0.10.19")
+    implementation("xyz.xenondevs.invui:invui-core:1.43")
+    implementation("xyz.xenondevs.invui:inventory-access:1.43")
+    implementation("xyz.xenondevs.invui:inventory-access-r19:1.43")
+    implementation("xyz.xenondevs.invui:inventory-access-r20:1.43")
+    implementation("xyz.xenondevs.invui:inventory-access-r21:1.43")
+    implementation("xyz.xenondevs.invui:invui-kotlin:1.43")
     paperweight.paperDevBundle("1.21.1-R0.1-SNAPSHOT")
 }
 
@@ -70,7 +75,7 @@ bukkit {
     }
 }
 
-paperweight.reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArtifactConfiguration.MOJANG_PRODUCTION
+paperweight.reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArtifactConfiguration.REOBF_PRODUCTION
 
 val targetJavaVersion = 21
 kotlin {
@@ -90,12 +95,33 @@ tasks.processResources {
     }
 }
 
+tasks.assemble {
+    dependsOn(tasks.reobfJar)
+}
+
 tasks.shadowJar {
-    dependencies {
-        include(dependency("co.aikar:acf-paper:0.5.1-SNAPSHOT"))
-        include(dependency("com.github.stefvanschie.inventoryframework:IF:0.10.19"))
+    minimize {
+        exclude(dependency("co.aikar:acf-paper:0.5.1-SNAPSHOT"))
+        exclude(dependency("xyz.xenondevs.invui:invui-core:1.43"))
+        exclude(dependency("xyz.xenondevs.invui:invui-kotlin:1.43"))
+        exclude(dependency("xyz.xenondevs.invui:inventory-access:1.43"))
+        exclude(dependency("xyz.xenondevs.invui:inventory-access-r19:1.43"))
+        exclude(dependency("xyz.xenondevs.invui:inventory-access-r20:1.43"))
+        exclude(dependency("xyz.xenondevs.invui:inventory-access-r21:1.43"))
     }
 
+    dependencies {
+        include(dependency("co.aikar:acf-paper:0.5.1-SNAPSHOT"))
+        include(dependency("xyz.xenondevs.invui:invui-core:1.43"))
+        include(dependency("xyz.xenondevs.invui:invui-kotlin:1.43"))
+        include(dependency("xyz.xenondevs.invui:inventory-access:1.43"))
+        include(dependency("xyz.xenondevs.invui:inventory-access-r19:1.43"))
+        include(dependency("xyz.xenondevs.invui:inventory-access-r20:1.43"))
+        include(dependency("xyz.xenondevs.invui:inventory-access-r21:1.43"))
+    }
+
+    relocate("xyz.xenondevs.inventoryaccess", "me.vaan.balanceddiet.deps.inventoryaccess")
+    relocate("xyz.xenondevs.invui", "me.vaan.balanceddiet.deps.invui")
     relocate("co.aikar.commands", "me.vaan.balanceddiet.deps.acf")
     relocate("co.aikar.locales", "me.vaan.balanceddiet.deps.locales")
 }
