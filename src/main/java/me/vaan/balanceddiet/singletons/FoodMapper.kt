@@ -49,7 +49,9 @@ object FoodMapper {
 
             val lowerFood = foodType.lowercase()
             FoodTypes.add(lowerFood)
-            val list = file.getStringList(foodType)
+            val foodSection = file.getConfigurationSection(foodType)!!
+
+            val list = foodSection.getStringList("foodList")
             val set = HashSet<FoodEntry>()
             list.forEach {
                 val elements = it.split(";")
@@ -101,7 +103,7 @@ object FoodMapper {
     }
 
     private fun checkForgottenEdibles() {
-        val foods = Material.entries.filter { it.isDietEdible() }
+        val foods = Material.values().filter(Material::isDietEdible)
         for (food in foods) {
             defaultMapper[food]
                 ?: BalancedDiet.logger!!.warning("The food $food isn't mapped to any default, you might want to change that")

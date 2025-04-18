@@ -7,6 +7,10 @@ object FoodTypes {
         registry.add(entry)
     }
 
+    fun clear() {
+        registry.clear()
+    }
+
     fun getRegistry(): HashSet<String> {
         return registry
     }
