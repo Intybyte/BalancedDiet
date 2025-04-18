@@ -1,4 +1,8 @@
 meat:
+  material: COOKED_BEEF
+  displayName: "<red>Meat</red>"
+  lore:
+    - "Land animal meat"
   foodList:
     - BEEF
     - COOKED_BEEF
@@ -14,6 +18,10 @@ meat:
     - ROTTEN_FLESH
 
 fish:
+  material: COOKED_COD
+  displayName: "<blue>Fish</blue>"
+  lore:
+    - "Sea meat"
   foodList:
     - COD
     - COOKED_COD
@@ -23,6 +31,10 @@ fish:
     - PUFFERFISH
 
 vegetables:
+  material: CARROT
+  displayName: "<blue>Vegetables</blue>"
+  lore:
+    - "Not meat"
   foodList:
     - CARROT
     - POTATO
@@ -34,6 +46,10 @@ vegetables:
     - GOLDEN_CARROT
 
 sweets:
+  material: HONEY_BOTTLE
+  displayName: "<pink>Sweets</pink>"
+  lore:
+    - "Sugary taste!"
   foodList:
     - COOKIE
     - CAKE
@@ -42,6 +58,11 @@ sweets:
     - PUMPKIN_PIE
 
 fruit:
+  material: APPLE
+  displayName: "<pink>Fruits</pink>"
+  lore:
+    - "Stuff that grows on trees and"
+    - "sometimes doesn't grow on trees"
   foodList:
     - APPLE
     - GOLDEN_APPLE
@@ -51,6 +72,11 @@ fruit:
     - CHORUS_FRUIT
 
 processed:
+  material: BREAD
+  displayName: "<brown>Processed Foods</brown>"
+  lore:
+    - "Food that needs to be processed in order to be consumed"
+    - "or are generally more complex"
   foodList:
     - BREAD
     - MUSHROOM_STEW

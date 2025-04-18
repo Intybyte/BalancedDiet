@@ -8,20 +8,16 @@ import kotlin.math.max
 class DietData {
     private val _data = ConcurrentHashMap<String, Int>()
 
-
     init {
-        val foodTypes = FoodTypes.getRegistry()
-        foodTypes.forEach {
-            _data[it] = 0
+        FoodTypes.registry.forEach {
+            _data[it.key] = 0
         }
     }
 
     fun decreaseAll(amount: Int) {
-        val foodTypes = FoodTypes.getRegistry()
-
-        for (t in foodTypes) {
-            val stored = _data[t] ?: continue
-            _data[t] = max(0, stored - amount)
+        for (t in FoodTypes.registry) {
+            val stored = _data[t.key] ?: continue
+            _data[t.key] = max(0, stored - amount)
         }
     }
 

@@ -6,14 +6,14 @@ import org.bukkit.inventory.ItemStack
 
 data class FoodEntry(val material: Material, val display: String?) {
 
-    constructor(stack: ItemStack) : this(stack.type, stack.itemMeta.displayName()?.textContent())
+    constructor(stack: ItemStack) : this(stack.type, stack.itemMeta.displayName()?.textContent)
 
     operator fun contains(stack: ItemStack) : Boolean {
         val sameMaterial = stack.type == material
 
         if (!sameMaterial) return false
 
-        val stackDisplay = stack.displayName().textContent()
+        val stackDisplay = stack.displayName().textContent
         return stackDisplay == display
     }
 }

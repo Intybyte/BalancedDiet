@@ -33,8 +33,8 @@ object DietManager {
 
     fun save(async: Boolean) {
         val runnable =  {
-            val registry = FoodTypes.getRegistry()
-            val fieldsToChange = registry.joinToString(",")
+            val registry = FoodTypes.registry
+            val fieldsToChange = registry.values.joinToString(",")
             val placeholders = "?,".repeat(registry.size + 1).dropLast(1)
 
             for (entry in database) {
@@ -47,7 +47,7 @@ object DietManager {
 
                 var i = 2
                 for (food in registry) {
-                    statement.setInt(i++, foodData[food])
+                    statement.setInt(i++, foodData[food.key])
                 }
 
                 statement.execute()
@@ -71,8 +71,8 @@ object DietManager {
         )
 
         val columnsList = getColumns("diet")
-        for (entry in FoodTypes.getRegistry()) {
-            if (entry !in columnsList) {
+        for (entry in FoodTypes.registry) {
+            if (entry.key !in columnsList) {
                 val statement = connection.createStatement()
                 val alterTableQuery = "ALTER TABLE diet ADD COLUMN $entry INTEGER"
                 statement.executeUpdate(alterTableQuery)
@@ -85,13 +85,13 @@ object DietManager {
         while (resultSet.next()) {
             val player = UUID.fromString(resultSet.getString("player"))
             val tempData = DietData()
-            for (entry in FoodTypes.getRegistry()) {
+            for (entry in FoodTypes.registry) {
                 try {
-                    val foodEntryValue = resultSet.getInt(entry)
-                    tempData[entry] = foodEntryValue
+                    val foodEntryValue = resultSet.getInt(entry.key)
+                    tempData[entry.key] = foodEntryValue
                 } catch (e: Exception) {
                     BalancedDiet.logger!!.warning("Error loading database: $entry not found")
-                    tempData[entry] = 0
+                    tempData[entry.key] = 0
                 }
             }
 

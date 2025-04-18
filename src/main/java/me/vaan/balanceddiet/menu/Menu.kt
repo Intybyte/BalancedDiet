@@ -1,5 +1,6 @@
 package me.vaan.balanceddiet.menu
 
+import me.vaan.balanceddiet.data.FoodTypes
 import me.vaan.balanceddiet.singletons.DietManager
 import org.bukkit.Material
 import org.bukkit.OfflinePlayer
@@ -46,11 +47,7 @@ object Menu {
 
         val record = DietManager[player.uniqueId]
         val items = record.map {
-            val builder = ItemBuilder(Material.BREAD) //TODO: make this configurable
-                .setDisplayName(it.key)
-                .addLoreLines("", "Consumed: ${it.value}")
-
-            SimpleItem(builder, useless)
+            SimpleItem(FoodTypes.registry[it.key]!!.displayItem, useless)
         }
 
         val gui = dietMenuPrefab

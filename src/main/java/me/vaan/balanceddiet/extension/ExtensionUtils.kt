@@ -3,6 +3,7 @@ package me.vaan.balanceddiet.extension
 import me.vaan.balanceddiet.singletons.FoodEffects
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.TextComponent
+import net.kyori.adventure.text.format.TextDecoration
 import net.minecraft.core.component.DataComponents
 import net.minecraft.world.food.FoodProperties
 import org.bukkit.Material
@@ -32,8 +33,12 @@ fun ItemStack.getFoodComponent() : FoodProperties? {
     return nmsCopy.components[DataComponents.FOOD]
 }
 
-fun Component.textContent() : String {
+val Component.textContent: String get() {
     return (this as TextComponent).content()
+}
+
+val Component.italicLess: Component get() {
+    return this.decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
 }
 
 fun Material.isDietEdible() : Boolean {

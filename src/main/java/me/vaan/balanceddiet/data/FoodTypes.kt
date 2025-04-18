@@ -1,17 +1,13 @@
 package me.vaan.balanceddiet.data
 
 object FoodTypes {
-    private val registry: HashSet<String> = HashSet()
+    val registry: HashMap<String, FoodType> = HashMap()
 
-    fun add(entry: String) {
-        registry.add(entry)
+    fun add(key: String, entry: FoodType) {
+        registry[key] = entry
     }
 
     fun clear() {
         registry.clear()
-    }
-
-    fun getRegistry(): HashSet<String> {
-        return registry
     }
 }

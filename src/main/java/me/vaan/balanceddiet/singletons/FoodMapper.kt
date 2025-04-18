@@ -3,9 +3,12 @@ package me.vaan.balanceddiet.singletons
 import me.vaan.balanceddiet.BalancedDiet
 import me.vaan.balanceddiet.config.ConfigStorage
 import me.vaan.balanceddiet.data.FoodEntry
+import me.vaan.balanceddiet.data.FoodType
 import me.vaan.balanceddiet.data.FoodTypes
 import me.vaan.balanceddiet.extension.isDietEdible
 import me.vaan.balanceddiet.extension.textContent
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Material
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.inventory.ItemStack
@@ -17,7 +20,7 @@ object FoodMapper {
     private val defaultMapper = ConcurrentHashMap<Material, String>()
 
     fun map(food: ItemStack) : String? {
-        val display = food.itemMeta.displayName()?.textContent()
+        val display = food.itemMeta.displayName()?.textContent
 
         val type = food.type
         if (display.isNullOrEmpty()) return defaultMapper[type]
@@ -48,14 +51,40 @@ object FoodMapper {
             }
 
             val lowerFood = foodType.lowercase()
-            FoodTypes.add(lowerFood)
             val foodSection = file.getConfigurationSection(foodType)!!
 
             val list = foodSection.getStringList("foodList")
+            val materialItemString = foodSection.getString("material")
+            val materialItem: Material
+            if (materialItemString == null) {
+                BalancedDiet.logger!!.warning("Material entry for $foodType is absent, using BREAD")
+                materialItem = Material.BREAD
+            } else {
+                materialItem = Material.matchMaterial(materialItemString) ?:
+                    BalancedDiet.logger!!.warning("$materialItemString can't be resolved into a valid material")
+                        .let { Material.BREAD }
+            }
+
+            val mm = MiniMessage.miniMessage()
+            val displayName = foodSection.getComponent("displayName", mm) ?:
+                BalancedDiet.logger!!.warning("$foodType displayName cannot be found, using key")
+                    .let { Component.text(foodType) }
+
+            val lore = foodSection.getStringList("lore")
+            val loreComponent = lore.map(mm::deserialize)
+
+            val foodTypeEntry = FoodType(materialItem, displayName, loreComponent)
+            FoodTypes.add(lowerFood, foodTypeEntry)
+
             val set = HashSet<FoodEntry>()
             list.forEach {
                 val elements = it.split(";")
-                val material = Material.valueOf(elements[0])
+                val material = Material.matchMaterial(elements[0])
+
+                if (material == null) {
+                    BalancedDiet.logger!!.warning("${elements[0]} is an invalid food name")
+                    return@forEach
+                }
 
                 if (elements.size == 1) {
                     defaultMapper[material] = lowerFood
